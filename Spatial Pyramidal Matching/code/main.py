@@ -13,19 +13,16 @@ from opts import get_opts
 def main():
     opts = get_opts()
 
-    # Q1.1
     img_path = join(opts.data_dir, 'kitchen/sun_aasmevtpkslccptd.jpg')
     img = Image.open(img_path)
     img = np.array(img).astype(np.float32) / 255
     filter_responses = visual_words.extract_filter_responses(opts, img)
     util.display_filter_responses(opts, filter_responses)
 
-    # Q1.2
     n_cpu = util.get_num_CPU()
     dict_name = "dictionary"
     visual_words.compute_dictionary(opts, dict_name, n_worker=n_cpu)
 
-    # Q1.3
     img_path = join(opts.data_dir, 'kitchen/sun_aasmevtpkslccptd.jpg')
     img = Image.open(img_path)
     img = np.array(img).astype(np.float32)/255
@@ -33,11 +30,9 @@ def main():
     wordmap = visual_words.get_visual_words(opts, img, dictionary)
     util.visualize_wordmap(wordmap)
 
-    # Q2.1-2.4
     n_cpu = util.get_num_CPU()
     visual_recog.build_recognition_system(opts, dict_name, n_worker=n_cpu)
 
-    # Q2.5
     n_cpu = util.get_num_CPU()
     conf, accuracy = visual_recog.evaluate_recognition_system(opts, visual_recog.n_worker=n_cpu)
 
@@ -46,7 +41,6 @@ def main():
     np.savetxt(join(opts.out_dir, 'confmat.csv'), conf, fmt='%d', delimiter=',')
     np.savetxt(join(opts.out_dir, 'accuracy.txt'), [accuracy], fmt='%g')
     
-    # Q3.2
     clf = svm_classifier(opts)
     conf, accuracy = visual_recog.evaluate_rec_svm(opts, clf)
 
